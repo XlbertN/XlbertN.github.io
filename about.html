@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - Minzo</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0077cc;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部导航 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: #555;
+            font-weight: 500;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            border-bottom-color: #0077cc;
+            color: #0077cc;
+        }
+
+        /* 主体内容 */
+        main {
+            padding: 40px 0;
+        }
+
+        /* 关于页面内容 */
+        .about-content {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 40px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .about-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .about-text h3 {
+            margin: 40px 0 20px;
+            color: #333;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: #fff;
+            padding: 30px 0;
+            border-top: 1px solid #eaeaea;
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        .social-links {
+            margin-bottom: 15px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .social-links a:hover {
+            color: #0077cc;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .about-content {
+                padding: 20px;
+            }
+
+            .about-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">我的博客</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html" class="active">关于</a></li>
+                    <li><a href="articles.html">文章</a></li>
+                    <li><a href="#">联系</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="about-content">
+            <div class="about-header">
+                <h1>关于我</h1>
+                <div class="profile-image">
+                    <!-- 这里可以放置你的图片 -->
+                </div>
+            </div>
+            
+            <div class="about-text">
+                <p>你好呀，欢迎来到我的小站！👋</p>
+                <p>我是许铭哲，一名对世界充满好奇的高中生，目前在中国一边读书，一边探索着课本之外的广阔天地。</p>
+                <p>这个博客就像我的数字笔记本，用来记录成长路上的所见所闻、所思所想。我喜欢把脑子里那些乱糟糟的想法梳理成文字——也许是某次放学路上的突发奇想，也许是读完一本书后的激动心得，或者是对当下热点的一些不成熟的小看法。</p>
+                <p>我的兴趣有点“杂食”：我对 商业 着迷，喜欢观察街头小店如何生存，也爱琢磨大公司背后的博弈；面对飞速发展的 AI ，我既惊叹又警惕，总想聊聊技术会给普通人带来什么；而 个人成长 是我永恒的课题，如何管理时间、如何克服焦虑、如何成为更好的自己——这些思考都会散落在博客里。</p>
+                <p>我相信文字能连接有趣的灵魂。如果你也对这些话题感兴趣，或者只是想找个同龄人聊聊天，欢迎在评论区留下足迹。每一条留言我都会认真看。</p>
+                <p>很高兴在这里遇见你，愿我们都能保持好奇，野蛮生长。</p>
+                
+                <h3>Hi there!</h3>
+                <p>Hi there, welcome to my little corner of the internet! 👋</p>
+                <p>I’m AlbertHsu, a high school student with a curious mind. I’m currently studying in China, while exploring the vast world beyond textbooks.</p>
+                <p>This blog is like my digital notebook—a place to document what I see, hear, think, and feel along the journey of growing up. I enjoy turning my messy thoughts into words: maybe a sudden idea on the way home from school, an exciting takeaway after finishing a book, or some immature reflections on current events.</p>
+                <p>My interests are quite diverse: I’m fascinated by business —observing how small street shops survive and analyzing the games big companies play; I’m both amazed and cautious about the rapid rise of AI, and I often wonder how technology will impact ordinary people; personal growth is my eternal subject—how to manage time, overcome anxiety, and become a better version of myself. These reflections will all find their way onto this blog.</p>
+                <p>I believe words can connect like-minded souls. If you share similar interests, or just feel like chatting with a peer, feel free to leave a comment. I read every single one.</p>
+                <p>So glad to meet you here. May we both stay curious and keep growing—wild and free.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <!-- 这里可以放你的社交媒体链接，例如 GitHub、微博等 -->
+                <a href="https://github.com/xlbertn" target="_blank">GitHub</a> ·
+                <a href="https://weibo.com/u/7739337954" target="_blank">微博</a> ·
+                <a href="mailto:3574957775@qq.com" target="_blank">邮箱</a>
+            </div>
+            <p>© 2025 许Mingzhe 的个人博客. 由 GitHub Pages 驱动.</p>
+        </div>
+    </footer>
+</body>
+</html>
