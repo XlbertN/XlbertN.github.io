@@ -291,11 +291,17 @@
 
     <script>
         // 加载markdown文件并渲染
-        // 使用绝对路径加载markdown文件
-        const repoName = 'xlbertn.github.io'; 
-        const markdownFile = `/${repoName}/essay1.md`;
+        // 获取URL参数
+        function getURLParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
         
-        console.log('Attempting to load with absolute path:', markdownFile);
+        // 根据ID加载对应的markdown文件
+        const articleId = getURLParam('id') || '1'; // 默认加载第1篇文章
+        const markdownFile = `essay${articleId}.md`;
+        
+        console.log('Attempting to load:', markdownFile);
         
         fetch(markdownFile)
             .then(response => {
@@ -309,22 +315,7 @@
             })
             .catch(error => {
                 console.error('Error loading markdown file:', error);
-                // 尝试使用相对路径作为备选
-                console.log('Attempting to load with relative path');
-                fetch('essay1.md')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(text => {
-                        document.getElementById('markdown-content').innerHTML = marked(text);
-                    })
-                    .catch(error2 => {
-                        console.error('Second attempt failed:', error2);
-                        document.getElementById('markdown-content').innerHTML = '<p>加载文章失败，请稍后再试。</p>';
-                    });
+                document.getElementById('markdown-content').innerHTML = '<p>加载文章失败，请稍后再试。</p>';
             });
     </script>
 </body>
