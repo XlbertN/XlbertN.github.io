@@ -301,21 +301,27 @@
         const articleId = getURLParam('id') || '1'; // 默认加载第1篇文章
         const markdownFile = `essay${articleId}.md`;
         
+        console.log('Current URL:', window.location.href);
         console.log('Attempting to load:', markdownFile);
+        console.log('Full path:', window.location.origin + window.location.pathname.replace('article.html', '') + markdownFile);
         
+        // 使用fetch API加载markdown文件
         fetch(markdownFile)
             .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response URL:', response.url);
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
                 }
                 return response.text();
             })
             .then(text => {
+                console.log('Successfully loaded markdown file, length:', text.length);
                 document.getElementById('markdown-content').innerHTML = marked(text);
             })
             .catch(error => {
                 console.error('Error loading markdown file:', error);
-                document.getElementById('markdown-content').innerHTML = '<p>加载文章失败，请稍后再试。</p>';
+                document.getElementById('markdown-content').innerHTML = `<p>加载文章失败，请稍后再试。错误信息：${error.message}</p>`;
             });
     </script>
 </body>
