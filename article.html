@@ -292,82 +292,37 @@
     <script>
         // 确保DOM加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
-            // 加载markdown文件并渲染
+            // 加载html文件
             // 获取URL参数
             function getURLParam(name) {
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(name);
             }
             
-            // 根据ID加载对应的markdown文件
+            // 根据ID加载对应的html文件
             const articleId = getURLParam('id') || '1'; // 默认加载第1篇文章
-            const markdownFile = `essay${articleId}.md`;
+            const htmlFile = `essay${articleId}.html`;
             
             console.log('Current URL:', window.location.href);
-            console.log('Attempting to load:', markdownFile);
+            console.log('Attempting to load:', htmlFile);
             
-            // 使用GitHub API加载markdown文件
-            // 替换为你的GitHub用户名和仓库名
-            const githubUsername = 'xlbertn';
-            const githubRepo = 'xlbertn.github.io';
-            const githubBranch = 'main'; // 或者 'master'
-            
-            // GitHub API URL
-            const apiUrl = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${markdownFile}?ref=${githubBranch}`;
-            
-            console.log('GitHub API URL:', apiUrl);
-            
-            // 使用fetch API调用GitHub API
-            fetch(apiUrl)
+            // 使用相对路径加载html文件
+            fetch(htmlFile)
                 .then(response => {
                     console.log('Response status:', response.status);
                     if (!response.ok) {
                         throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
                     }
-                    return response.json();
+                    return response.text();
                 })
-                .then(data => {
-                    console.log('Successfully fetched data from GitHub API');
-                    // 解码base64编码的内容
-                    const markdownContent = atob(data.content);
-                    console.log('Decoded markdown content length:', markdownContent.length);
-                    
-                    // 使用简单的HTML转换
-                    const htmlContent = markdownToHtml(markdownContent);
-                    document.getElementById('markdown-content').innerHTML = htmlContent;
+                .then(html => {
+                    console.log('Successfully loaded html file');
+                    document.getElementById('markdown-content').innerHTML = html;
                 })
                 .catch(error => {
-                    console.error('Error loading markdown file from GitHub API:', error);
+                    console.error('Error loading html file:', error);
                     document.getElementById('markdown-content').innerHTML = `<p>加载文章失败，请稍后再试。错误信息：${error.message}</p>`;
                 });
-            
-            // 简单的markdown转HTML函数
-            function markdownToHtml(markdown) {
-                // 处理标题
-                markdown = markdown.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-                markdown = markdown.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-                markdown = markdown.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-                
-                // 处理粗体
-                markdown = markdown.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
-                
-                // 处理斜体
-                markdown = markdown.replace(/\*(.*?)\*/gim, '<em>$1</em>');
-                
-                // 处理链接
-                markdown = markdown.replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank">$1</a>');
-                
-                // 处理引用
-                markdown = markdown.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
-                
-                // 处理段落
-                markdown = markdown.replace(/^(?!<h[1-6]>)(?!<h[1-6]>)(?!<blockquote>)(.*$)/gim, '<p>$1</p>');
-                
-                // 处理换行
-                markdown = markdown.replace(/\n/gim, '<br>');
-                
-                return markdown;
-            }
         });
     </script>
 </body>
