@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文章详情 - 我的博客</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <style>
         /* 全局样式 */
         * {
@@ -290,39 +290,85 @@
     </footer>
 
     <script>
-        // 加载markdown文件并渲染
-        // 获取URL参数
-        function getURLParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-        
-        // 根据ID加载对应的markdown文件
-        const articleId = getURLParam('id') || '1'; // 默认加载第1篇文章
-        const markdownFile = `essay${articleId}.md`;
-        
-        console.log('Current URL:', window.location.href);
-        console.log('Attempting to load:', markdownFile);
-        console.log('Full path:', window.location.origin + window.location.pathname.replace('article.html', '') + markdownFile);
-        
-        // 使用fetch API加载markdown文件
-        fetch(markdownFile)
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response URL:', response.url);
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-                }
-                return response.text();
-            })
-            .then(text => {
-                console.log('Successfully loaded markdown file, length:', text.length);
-                document.getElementById('markdown-content').innerHTML = marked(text);
-            })
-            .catch(error => {
-                console.error('Error loading markdown file:', error);
-                document.getElementById('markdown-content').innerHTML = `<p>加载文章失败，请稍后再试。错误信息：${error.message}</p>`;
-            });
+        // 确保DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载markdown文件并渲染
+            // 获取URL参数
+            function getURLParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+            
+            // 根据ID加载对应的markdown文件
+            const articleId = getURLParam('id') || '1'; // 默认加载第1篇文章
+            const markdownFile = `essay${articleId}.md`;
+            
+            console.log('Current URL:', window.location.href);
+            console.log('Attempting to load:', markdownFile);
+            
+            // 使用GitHub API加载markdown文件
+            // 替换为你的GitHub用户名和仓库名
+            const githubUsername = 'xlbertn';
+            const githubRepo = 'xlbertn.github.io';
+            const githubBranch = 'main'; // 或者 'master'
+            
+            // GitHub API URL
+            const apiUrl = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${markdownFile}?ref=${githubBranch}`;
+            
+            console.log('GitHub API URL:', apiUrl);
+            
+            // 使用fetch API调用GitHub API
+            fetch(apiUrl)
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Successfully fetched data from GitHub API');
+                    // 解码base64编码的内容
+                    const markdownContent = atob(data.content);
+                    console.log('Decoded markdown content length:', markdownContent.length);
+                    
+                    // 使用简单的HTML转换
+                    const htmlContent = markdownToHtml(markdownContent);
+                    document.getElementById('markdown-content').innerHTML = htmlContent;
+                })
+                .catch(error => {
+                    console.error('Error loading markdown file from GitHub API:', error);
+                    document.getElementById('markdown-content').innerHTML = `<p>加载文章失败，请稍后再试。错误信息：${error.message}</p>`;
+                });
+            
+            // 简单的markdown转HTML函数
+            function markdownToHtml(markdown) {
+                // 处理标题
+                markdown = markdown.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+                markdown = markdown.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+                markdown = markdown.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+                
+                // 处理粗体
+                markdown = markdown.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+                
+                // 处理斜体
+                markdown = markdown.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+                
+                // 处理链接
+                markdown = markdown.replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank">$1</a>');
+                
+                // 处理引用
+                markdown = markdown.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+                
+                // 处理段落
+                markdown = markdown.replace(/^(?!<h[1-6]>)(?!<h[1-6]>)(?!<blockquote>)(.*$)/gim, '<p>$1</p>');
+                
+                // 处理换行
+                markdown = markdown.replace(/\n/gim, '<br>');
+                
+                return markdown;
+            }
+        });
     </script>
 </body>
 </html>
