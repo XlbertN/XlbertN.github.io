@@ -291,8 +291,14 @@
 
     <script>
         // 加载markdown文件并渲染
+        // 在GitHub Pages上，fetch API可以正常工作
         fetch('essay1.md')
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
             .then(text => {
                 document.getElementById('markdown-content').innerHTML = marked(text);
             })
